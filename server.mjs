@@ -307,7 +307,17 @@ server.on("upgrade", (req, socket, head) => {
   }
 });
 
-const port = process.env.PORT || 3000;
+// 명령줄 인자에서 포트 파싱
+const args = process.argv.slice(2);
+const portIndex = args.findIndex((arg) => arg === "-p" || arg === "--port");
+const portFromArgs =
+  portIndex !== -1 && args[portIndex + 1]
+    ? parseInt(args[portIndex + 1])
+    : null;
+
+// 우선순위: 명령줄 인자 > 환경변수 > 기본값
+const port = portFromArgs || process.env.PORT || 3000;
+
 server.listen(port, () => {
   console.log(`> Ready on http://localhost:${port}`);
 });
