@@ -285,6 +285,11 @@ function attachSocket(ws, req) {
 
 await app.prepare();
 const server = createServer(async (req, res) => {
+  if (req.url.startsWith("/api/health")) {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ status: "healthy", timestamp: Date.now() }));
+    return;
+  }
   if (req.url.startsWith("/api/create")) {
     const room = createRoom();
     res.writeHead(200, { "Content-Type": "application/json" });
@@ -312,7 +317,7 @@ const args = process.argv.slice(2);
 const portIndex = args.findIndex((arg) => arg === "-p" || arg === "--port");
 const portFromArgs =
   portIndex !== -1 && args[portIndex + 1]
-    ? parseInt(args[portIndex + 1])
+    ? parseInt(args[portIndex + 1], 10)
     : null;
 
 // 우선순위: 명령줄 인자 > 환경변수 > 기본값
