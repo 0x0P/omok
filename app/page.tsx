@@ -82,7 +82,7 @@ export default function Home() {
 
   useEffect(() => {
     const ws = new WebSocket(
-      `${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws`
+      `${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws`,
     );
     wsRef.current = ws;
 
@@ -121,7 +121,7 @@ export default function Home() {
                   winner: msg.payload.winner,
                   players: msg.payload.players,
                 }
-              : prev
+              : prev,
           );
         } else if (msg.type === "restart") {
           setStatus("새 게임 시작");
@@ -248,25 +248,21 @@ export default function Home() {
             </div>
             <div className={styles.row}>
               {!room ? (
-                <>
-                  <button
-                    className={`${styles.btn} ${styles.primary}`}
-                    type="button"
-                    onClick={createRoom}
-                  >
-                    방 생성
-                  </button>
-                </>
+                <button
+                  className={`${styles.btn} ${styles.primary}`}
+                  type="button"
+                  onClick={createRoom}
+                >
+                  방 생성
+                </button>
               ) : (
-                <>
-                  <button
-                    className={styles.btn}
-                    type="button"
-                    onClick={leaveRoom}
-                  >
-                    나가기
-                  </button>
-                </>
+                <button
+                  className={styles.btn}
+                  type="button"
+                  onClick={leaveRoom}
+                >
+                  나가기
+                </button>
               )}
             </div>
           </div>
@@ -361,8 +357,8 @@ export default function Home() {
                           ? "진행 중"
                           : "대기 중"
                         : room.winner === 1
-                        ? "흑 승"
-                        : "백 승"}
+                          ? "흑 승"
+                          : "백 승"}
                     </div>
                   </div>
                 </div>
@@ -387,8 +383,8 @@ export default function Home() {
                             {p.color === "B"
                               ? "흑"
                               : p.color === "W"
-                              ? "백"
-                              : "?"}{" "}
+                                ? "백"
+                                : "?"}{" "}
                             · {p.score}
                           </div>
                         </div>
